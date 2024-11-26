@@ -4,6 +4,9 @@ LDFLAGS = -lpthread
 
 all: proxy
 
+cache.o: cache.c cache.h
+	$(CC) $(CFLAGS) -c cache.c
+
 http.o: http.c http.h
 	$(CC) $(CFLAGS) -c http.c
 
@@ -16,8 +19,8 @@ io.o: io.c io.h
 proxy.o: proxy.c proxy.h
 	$(CC) $(CFLAGS) -c proxy.c
 
-proxy: proxy.o error.o io.o http.o
-	$(CC) $(CFLAGS) error.o io.o http.o proxy.o -o proxy $(LDFLAGS)
+proxy: proxy.o error.o io.o http.o cache.o
+	$(CC) $(CFLAGS) cache.o error.o io.o http.o proxy.o -o proxy $(LDFLAGS)
 
 clean:
 	rm -f *~ *.o proxy core *.tar *.zip *.gzip *.bzip *.gz
